@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+
+# Environment Variables
+.env
+.env.*
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs / Text Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# LibreOffice / Office Lock Files
+.~lock.*
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Node (If you add a frontend later)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Miscellaneous
+*.bak
+*.tmp
