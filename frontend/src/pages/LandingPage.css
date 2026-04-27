@@ -1,0 +1,53 @@
+.landing-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #000;
+}
+
+.landing-header {
+  font-size: 2.25rem; /* 150% of 1.5rem */
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  padding-left: 20vw; /* Adjusts left centering */
+  color: #fff;
+}
+
+.cli-prompt {
+  color: #00ff00;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
+
+.option-row {
+  width: 100%;
+  padding: 1rem 20vw;
+  cursor: pointer;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  transition: background-color 0s, border-color 0s;
+}
+
+.option-row.selected {
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.option-content {
+  font-size: 1.5rem;
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  margin-left: -0.5rem; /* Align perfectly with header text ignoring the padding */
+  display: inline-block;
+}
+
+.option-row.selected .option-content {
+  background-color: #fff;
+  color: #000;
+}
