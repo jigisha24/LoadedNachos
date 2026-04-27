@@ -1,14 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+@import "tailwindcss";
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #000;
-  color: #fff;
-  font-family: 'Fira Code', 'Courier New', Courier, monospace;
-  overflow-x: hidden;
+@theme {
+  --color-neon-green: #39ff14;
+  --color-neon-teal: #00f0ff;
+  --color-charcoal-950: #0a0a0a;
+  --color-charcoal-900: #121212;
+  --color-charcoal-800: #1e1e1e;
+  --color-charcoal-700: #2a2a2a;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+body {
+  background-color: var(--color-charcoal-950);
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-charcoal-900);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal-700);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-charcoal-800);
 }
