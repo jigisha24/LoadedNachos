@@ -29,41 +29,36 @@ export function UploadSection() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      setIsSuccess(false);
-      setError(null);
-    }
-  };
+
 
   const handleUpload = async () => {
-    if (!file) return;
-    setIsUploading(true);
-    setError(null);
-    setIsSuccess(false);
-    
+    if (!file) {
+      alert("Please select a file first");
+      return;
+    }
+
+    console.log(file);
+
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const response = await fetch('http://localhost:8000/api/upload/', {
-        method: 'POST',
+      const res = await fetch("http://127.0.0.1:8000/api/upload/", {
+        method: "POST",
         body: formData,
       });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Upload failed');
+
+      const data = await res.json();
+      console.log(data);
+
+      if (!res.ok) {
+        throw new Error(data.error || "Upload failed from backend");
       }
 
-      setIsSuccess(true);
-      setFile(null);
-    } catch (err: any) {
-      setError(err.message || 'An error occurred during upload.');
-    } finally {
-      setIsUploading(false);
+      alert("Upload successful");
+    } catch (error: any) {
+      console.error(error);
+      alert(`Upload failed: ${error.message}`);
     }
   };
 
@@ -108,12 +103,16 @@ export function UploadSection() {
               <h3 className="text-xl font-semibold text-white mb-2">Drag & drop your file here</h3>
               <p className="text-gray-400 mb-6">or click to browse your computer</p>
               <label className="cursor-pointer">
-                <Button variant="secondary" as="span">Browse Files</Button>
+                <span className="relative inline-flex items-center justify-center font-medium rounded-lg px-6 py-2.5 transition-all duration-300 bg-charcoal-800 text-white hover:bg-charcoal-700 hover:text-neon-green border border-charcoal-700">Browse Files</span>
                 <input 
                   type="file" 
                   className="hidden" 
                   accept=".csv"
-                  onChange={handleFileChange}
+                  onChange={(e) => {
+                    const selectedFile = e.target.files?.[0] || null;
+                    console.log("Selected file:", selectedFile);
+                    setFile(selectedFile);
+                  }}
                 />
               </label>
             </>
@@ -130,11 +129,10 @@ export function UploadSection() {
         <div className="mt-8 flex flex-col items-center">
           <Button 
             className="w-full md:w-auto min-w-[200px]" 
-            disabled={!file && !isUploading}
-            isLoading={isUploading}
+            disabled={!file}
             onClick={handleUpload}
           >
-            {isUploading ? 'Uploading...' : 'Upload & Analyze'}
+            Upload Dataset
           </Button>
           
           {isSuccess && (

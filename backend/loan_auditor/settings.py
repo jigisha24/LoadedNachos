@@ -25,8 +25,12 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 INSTALLED_APPS = [
-    'django.contrib.contenttypes',
+    'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
     'auditor',
@@ -35,6 +39,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True  # Dev only
@@ -66,3 +73,7 @@ TEMPLATES = [
         },
     },
 ]
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+print("STATIC_URL LOADED:", STATIC_URL)

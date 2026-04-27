@@ -1,0 +1,7 @@
+sex,risk,credit_amount,duration
+male,good,1000,12
+female,bad,2000,24
+male,good,1500,18
+female,good,3000,36
+male,bad,1200,15
+female,good,2500,30

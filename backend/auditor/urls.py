@@ -1,8 +1,7 @@
 from django.urls import path
-from . import views
+from .views import upload_dataset, analyze_bias
 
 urlpatterns = [
-    path('upload/',   views.upload_dataset,  name='upload'),
-    path('analyze/',  views.analyze_dataset, name='analyze'),
-    path('simulate/', views.simulate_fair,   name='simulate'),
+    path('upload/', upload_dataset),
+    path('analyze/', analyze_bias),
 ]
