@@ -47,11 +47,18 @@ export function Dashboard() {
   }
 
   if (error) {
+    const isUploadError = error === "Upload dataset first" || error.includes("Upload dataset first");
+    const displayMessage = isUploadError 
+      ? "No dataset loaded. Please upload a dataset to begin analysis." 
+      : "We are experiencing an error right now, please try again later.";
+      
     return (
-      <div className="flex flex-col items-center justify-center h-96 space-y-4">
+      <div className="flex flex-col items-center justify-center h-96 space-y-4 text-center px-4">
         <ShieldAlert className="w-12 h-12 text-charcoal-700" />
-        <p className="text-gray-400 text-lg">{error}</p>
-        <p className="text-sm text-gray-500">Go to "Upload Dataset" to load your CSV first.</p>
+        <p className="text-gray-400 text-lg">{displayMessage}</p>
+        {isUploadError && (
+          <p className="text-sm text-gray-500">Go to "Upload Dataset" to load your CSV first.</p>
+        )}
       </div>
     );
   }
@@ -69,10 +76,15 @@ export function Dashboard() {
     rate: Number((globalBias.acceptance_rates[group] * 100).toFixed(1))
   })) : [];
 
+  // Find top 2 demographic groups dynamically
+  const groups = globalBias.acceptance_rates ? Object.keys(globalBias.acceptance_rates) : [];
+  const group1 = groups[0] || 'Group 1';
+  const group2 = groups[1];
+
   const clusterChartData = clusterBias.map((c: any) => ({
     name: `Cluster ${c.cluster_id}`,
-    Male: Number((c.male_acceptance_rate * 100).toFixed(1)),
-    Female: Number((c.female_acceptance_rate * 100).toFixed(1))
+    [group1]: Number(((c.acceptance_rates?.[group1] || 0) * 100).toFixed(1)),
+    ...(group2 ? { [group2]: Number(((c.acceptance_rates?.[group2] || 0) * 100).toFixed(1)) } : {})
   }));
 
   return (
@@ -81,6 +93,15 @@ export function Dashboard() {
         <h1 className="text-3xl font-bold text-white mb-2">Overview</h1>
         <p className="text-gray-400">Monitor bias metrics and fairness scores across loan decisions.</p>
       </div>
+
+      {data.llm_analysis && (
+        <Card glow className="mb-6 border-neon-teal/30 bg-[#0a0a0a]">
+          <h2 className="text-2xl font-bold text-white mb-2">
+            AI Fairness Analysis
+          </h2>
+          <p className="text-gray-300 whitespace-pre-wrap">{data.llm_analysis}</p>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card glow className="relative overflow-hidden group">
@@ -168,16 +189,28 @@ export function Dashboard() {
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Users size={64} className={c.bias_detected ? "text-red-400" : "text-neon-green"} />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-4">Cluster {c.cluster_id}</h3>
+                <h3 className="text-lg font-bold text-white mb-2">Cluster {c.cluster_id}</h3>
+                {c.features && Object.keys(c.features).length > 0 && (
+                  <div className="mb-4 text-xs text-gray-400 space-y-1 bg-black/20 p-2 rounded relative z-10 border border-gray-800">
+                    {Object.entries(c.features).map(([key, val]: any) => (
+                      <div key={key} className="flex justify-between">
+                        <span className="capitalize">{key.replace(/_/g, ' ')}:</span>
+                        <span>{val.min} - {val.max}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="space-y-2 mb-4 relative z-10">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-400">Male Acceptance:</span>
-                    <span className="text-white">{(c.male_acceptance_rate * 100).toFixed(1)}%</span>
+                    <span className="text-gray-400 capitalize">{group1} Acceptance:</span>
+                    <span className="text-white">{((c.acceptance_rates?.[group1] || 0) * 100).toFixed(1)}%</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-400">Female Acceptance:</span>
-                    <span className="text-white">{(c.female_acceptance_rate * 100).toFixed(1)}%</span>
-                  </div>
+                  {group2 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-400 capitalize">{group2} Acceptance:</span>
+                      <span className="text-white">{((c.acceptance_rates?.[group2] || 0) * 100).toFixed(1)}%</span>
+                    </div>
+                  )}
                 </div>
                 <div className={`mt-2 text-sm font-bold flex items-center justify-between relative z-10 ${c.bias_detected ? 'text-red-400' : 'text-neon-green'}`}>
                   <span>{c.bias_detected ? 'Bias Detected: YES' : 'Bias Detected: NO'}</span>
@@ -204,8 +237,8 @@ export function Dashboard() {
                     formatter={(value: number) => [`${value}%`, 'Acceptance Rate']}
                   />
                   <Legend />
-                  <Bar dataKey="Male" fill="#00f0ff" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="Female" fill="#a400ff" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey={group1} fill="#00f0ff" radius={[4, 4, 0, 0]} />
+                  {group2 && <Bar dataKey={group2} fill="#a400ff" radius={[4, 4, 0, 0]} />}
                 </BarChart>
               </ResponsiveContainer>
             </div>

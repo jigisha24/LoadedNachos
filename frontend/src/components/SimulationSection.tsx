@@ -57,7 +57,8 @@ export function SimulationSection() {
       });
 
     } catch (err: any) {
-      setError(err.message || 'An error occurred during simulation.');
+      console.error(err);
+      setError("We are experiencing an error right now, please try again later.");
     } finally {
       setIsSimulating(false);
     }
@@ -76,7 +77,7 @@ export function SimulationSection() {
           
           {error && (
             <div className="mb-6 flex items-center space-x-2 text-red-400 bg-red-400/10 px-4 py-3 rounded-lg text-left">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <AlertCircle className="w-5 h-5 shrink-0" />
               <span className="text-sm">{error}</span>
             </div>
           )}

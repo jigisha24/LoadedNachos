@@ -17,14 +17,14 @@ export function Layout({ children, activeTab, setActiveTab }: LayoutProps) {
   return (
     <div className="min-h-screen bg-charcoal-950 flex flex-col md:flex-row">
       {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-charcoal-900 border-r border-charcoal-800 flex-shrink-0">
+      <aside className="w-full md:w-64 bg-charcoal-900 border-r border-charcoal-800 shrink-0">
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-8">
             <div className="w-8 h-8 bg-neon-teal rounded-lg flex items-center justify-center shadow-[0_0_10px_rgba(0,240,255,0.5)]">
               <span className="text-charcoal-950 font-bold text-xl">F</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white tracking-tight">FairLens AI</h1>
+              <h1 className="text-xl font-bold text-white tracking-tight">FairLens-AI</h1>
               <p className="text-[10px] text-neon-teal uppercase tracking-wider font-semibold">Bias Detection</p>
             </div>
           </div>
@@ -55,9 +55,9 @@ export function Layout({ children, activeTab, setActiveTab }: LayoutProps) {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Navbar */}
-        <header className="h-16 border-b border-charcoal-800 bg-charcoal-950/80 backdrop-blur-md flex items-center px-8 flex-shrink-0 sticky top-0 z-10">
+        <header className="h-16 border-b border-charcoal-800 bg-charcoal-950/80 backdrop-blur-md flex items-center px-8 shrink-0 sticky top-0 z-10">
           <div className="flex items-center text-sm text-gray-400">
-            <span>Project</span>
+            <span>FairLens-AI</span>
             <span className="mx-2">/</span>
             <span className="text-white font-medium capitalize">{activeTab}</span>
           </div>

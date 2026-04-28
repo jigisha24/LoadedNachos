@@ -33,11 +33,13 @@ export function UploadSection() {
 
   const handleUpload = async () => {
     if (!file) {
-      alert("Please select a file first");
+      setError("Please select a file first");
       return;
     }
 
-    console.log(file);
+    setIsUploading(true);
+    setError(null);
+    setIsSuccess(false);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -49,16 +51,17 @@ export function UploadSection() {
       });
 
       const data = await res.json();
-      console.log(data);
 
       if (!res.ok) {
         throw new Error(data.error || "Upload failed from backend");
       }
 
-      alert("Upload successful");
+      setIsSuccess(true);
     } catch (error: any) {
       console.error(error);
-      alert(`Upload failed: ${error.message}`);
+      setError("We are experiencing an error right now, please try again later.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -127,16 +130,19 @@ export function UploadSection() {
         )}
 
         <div className="mt-8 flex flex-col items-center">
-          <Button 
-            className="w-full md:w-auto min-w-[200px]" 
-            disabled={!file}
-            onClick={handleUpload}
-          >
-            Upload Dataset
-          </Button>
+          {!isSuccess && (
+            <Button 
+              className="w-full md:w-auto min-w-[200px]" 
+              disabled={!file || isUploading}
+              onClick={handleUpload}
+              isLoading={isUploading}
+            >
+              {isUploading ? "Uploading..." : "Upload Dataset"}
+            </Button>
+          )}
           
           {isSuccess && (
-            <div className="mt-4 flex items-center space-x-2 text-neon-green animate-in slide-in-from-bottom-2 fade-in">
+            <div className="flex items-center space-x-2 text-neon-green animate-in slide-in-from-bottom-2 fade-in">
               <CheckCircle2 className="w-5 h-5" />
               <span>Dataset successfully uploaded! You can now view the Dashboard.</span>
             </div>
