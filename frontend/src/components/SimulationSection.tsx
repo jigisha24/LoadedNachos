@@ -28,7 +28,8 @@ export function SimulationSection() {
     setError(null);
     
     try {
-      const response = await fetch('http://localhost:8000/api/simulate/', {
+      const baseUrl = import.meta.env.PROD ? "" : "http://127.0.0.1:8000";
+      const response = await fetch(`${baseUrl}/api/simulate/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

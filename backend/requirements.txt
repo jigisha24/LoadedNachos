@@ -7,3 +7,5 @@ fairlearn
 numpy
 google-genai
 python-dotenv
+gunicorn
+whitenoise

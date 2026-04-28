@@ -45,7 +45,8 @@ export function UploadSection() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/upload/", {
+      const baseUrl = import.meta.env.PROD ? "" : "http://127.0.0.1:8000";
+      const res = await fetch(`${baseUrl}/api/upload/`, {
         method: "POST",
         body: formData,
       });
