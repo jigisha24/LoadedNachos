@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from './ui/Card';
 import { 
   BarChart, 
@@ -167,7 +167,7 @@ export function Dashboard() {
               <Tooltip 
                 cursor={{ fill: '#1e1e1e' }}
                 contentStyle={{ backgroundColor: '#121212', border: '1px solid #2a2a2a', borderRadius: '8px' }}
-                formatter={(value: number) => [`${value}%`, 'Acceptance Rate']}
+                formatter={(value: any) => [`${value}%`, 'Acceptance Rate']}
               />
               <Legend />
               <Bar dataKey="rate" name="Acceptance Rate (%)" fill="#00f0ff" radius={[4, 4, 0, 0]} />
@@ -234,7 +234,7 @@ export function Dashboard() {
                   <Tooltip 
                     cursor={{ fill: '#1e1e1e' }}
                     contentStyle={{ backgroundColor: '#121212', border: '1px solid #2a2a2a', borderRadius: '8px' }}
-                    formatter={(value: number) => [`${value}%`, 'Acceptance Rate']}
+                    formatter={(value: any) => [`${value}%`, 'Acceptance Rate']}
                   />
                   <Legend />
                   <Bar dataKey={group1} fill="#00f0ff" radius={[4, 4, 0, 0]} />

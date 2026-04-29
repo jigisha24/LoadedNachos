@@ -2,6 +2,9 @@
 # exit on error
 set -o errexit
 
+# Ensure we are in the backend directory
+cd "$(dirname "$0")"
+
 # Build Frontend
 echo "Building Frontend..."
 cd ../frontend
